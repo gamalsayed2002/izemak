@@ -5,7 +5,7 @@ import Add_Party from "./pages/ADD PARTY/Add_Party";
 import Add_invitors from "./pages/ADD INVITORS/Add_invitors";
 import All_invitors from "./pages/ALL INVITORS/All_invitors";
 import Edit from "./pages/ALL INVITORS/EDIT INVITOR/Edit";
-import Qr from "./pages/QR READER/Qr";
+import Qr from './pages/QR READER/Qr';
 
 function App() {
   return (

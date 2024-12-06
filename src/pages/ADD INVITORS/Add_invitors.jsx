@@ -4,7 +4,6 @@ import Loader from "../../COMPONENTS/LOADER/Loader";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
-import { FaInfoCircle } from "react-icons/fa";
 import { LuMenu } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
 import info_icon from "./imgs/info.512x512.png";
@@ -35,6 +34,7 @@ export default function Add_invitors() {
       .then((res) => res.json())
       .then((data) => {
         setData(data.data.members);
+    setLoader(false);
       })
       .catch((err) => {
         Swal.fire({
@@ -47,7 +47,7 @@ export default function Add_invitors() {
 
   useEffect(() => {
     getData();
-    setLoader(false);
+
   }, []);
 
   //

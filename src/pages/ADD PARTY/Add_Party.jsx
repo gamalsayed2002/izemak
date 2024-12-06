@@ -1,9 +1,7 @@
-import styles from "./add_party.module.css";
+
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import { IoMdCloudUpload } from "react-icons/io";
-import { Link } from "react-router-dom";
-import logo from "./imgs/izemak.jpeg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Loader from "../../COMPONENTS/LOADER/Loader";
@@ -16,7 +14,7 @@ export default function Add_Party() {
   let [location, setLocation] = useState("");
   let [invitation, setInvitation] = useState(null);
   let [partyText, setPartyText] = useState("");
-  let [partyLink, setPartyLink] = useState("");
+  // let [partyLink, setPartyLink] = useState("");
 
   let [partyCondition, setPartyCondition] = useState("both");
   let [img, setImg] = useState(null);
@@ -173,7 +171,7 @@ export default function Add_Party() {
                 />
               </motion.div>
 
-              <motion.div
+              {/* <motion.div
                 className={`input_container`}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -186,7 +184,7 @@ export default function Add_Party() {
                   id="link"
                   placeholder=" رابط مكان الحفل"
                 />
-              </motion.div>
+              </motion.div> */}
 
               <motion.div
                 className={`input_container`}
