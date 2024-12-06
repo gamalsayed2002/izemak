@@ -1,0 +1,122 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 97%;
+  padding: 10px 0;
+}
+.pagination .pagination_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 400px;
+  max-width: 100%;
+}
+.pagination .pagination_container .numbers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination .pagination_container .numbers button {
+  all: unset;
+  background: #ddd;
+  padding: 2px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.pagination .pagination_container .numbers button:hover {
+  background-color: #615134;
+  color: white;
+}
+.pagination .pagination_container button.control {
+  all: unset;
+  background-color: #615134;
+  color: white;
+  cursor: pointer;
+  width: 80px;
+  padding: 5px 0px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  transition: 0.5s;
+}
+.active {
+  background-color: #615134 !important;
+  color: white !important;
+}
+/* header */
+.header_container {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 100px;
+  align-items: center;
+  padding-top: 20px;
+}
+.header_container .img {
+  width: 100px;
+  background: #726a6a;
+
+  padding: 10px 30px;
+  border-radius: 7px;
+}
+.header_container .img img {
+  width: 130%;
+  border-radius: 5px;
+}
+.header_container .search {
+  width: 400px;
+  max-width: 100%;
+  height: 35px;
+  display: flex;
+  gap: 10px;
+}
+.header_container .search button {
+  background: var(--btn_bg);
+  box-shadow: 0 0 1px black;
+  border: none;
+  outline: none;
+  width: 70px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.header_container .search button:hover {
+  background: var(--text_color);
+  scale: 1.2;
+  color: white;
+}
+.header_container .search input {
+  outline: none;
+  border: none;
+  width: 300px;
+  height: 100%;
+  border-radius: 5px;
+  direction: rtl;
+  padding: 5px 25px 5px 0;
+  background: rgb(217, 217, 217);
+  color: #615134;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.header_container .search span {
+  position: absolute;
+  right: 5px;
+  top: 58%;
+  transform: translateY(-50%);
+  font-size: 18px;
+}

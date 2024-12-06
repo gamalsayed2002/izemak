@@ -1,0 +1,61 @@
+
+.edit_status_container {
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(137, 127, 127, 0.1);
+    backdrop-filter: blur(1px);
+  }
+  .edit_status {
+    width: 500px;
+    max-width: 95%;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--main_color);
+    border-radius: 5px;
+    gap: 20px;
+  }
+  .edit_status h2 {
+    padding-bottom: 25px;
+    width: fit-content;
+    margin: 0 auto;
+    color: whitesmoke;
+  }
+  .edit_status .select_container {
+    width: 150px;
+  }
+  .edit_status .select_container select {
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    padding: 5px;
+    width: 100%;
+  }
+  .edit_status .btn_container {
+    display: flex;
+    gap: 20px;
+  }
+  .edit_status .btn_container button {
+    all: unset;
+    background: #c1c1c1;
+    border-radius: 5px;
+    width: 60px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+  .edit_status .btn_container button:hover {
+    scale: 1.1;
+  }
