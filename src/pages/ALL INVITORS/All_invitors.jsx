@@ -1,181 +1,3 @@
-// import styles from "./all_invitors.module";
-// import { useEffect, useRef, useState } from "react";
-// import { Link, useNavigate, useParams } from "react-router-dom";
-// import logo from "./imgs/izemak.jpeg";
-// import Swal from "sweetalert2";
-// import Loader from "../../COMPONENTS/LOADER/Loader";
-// import { IoSearch } from "react-icons/io5";
-// import { FaPlus } from "react-icons/fa6";
-// import { MdDelete } from "react-icons/md";
-// import { FaUserEdit } from "react-icons/fa";
-// export default function All_invitors() {
-//   let { partyID } = useParams();
-//   let [loader, setLoader] = useState[true];
-//   let [searchValue, setSearchValue] = useState("");
-//   let [data, setData] = useState([]);
-//   let [prtrtyData, setPartyData] = useState([]);
-//   let naviation = useNavigate();
-//   const getData = () => {
-//     const token = localStorage.getItem("token");
-//     if (!token) {
-//       Swal.fire({
-//         icon: "error",
-//         title: "Oops...",
-//         text: "You must log in",
-//       });
-//       naviation("/");
-//     }
-//     fetch(`https://www.izemak.com/azimak/public/api/inviters/${partyID}`)
-//       .then((res) => res.json())
-//       .then((res) => {
-//         setPartyData(res.data);
-//         setData(res.data);
-//         loader.current.classList.add("hidden_loader");
-
-//         return res.data;
-//       })
-//       .catch((err) => {
-//         Swal.fire({
-//           icon: "error",
-//           title: "Oops...",
-//           text: err,
-//         });
-//       });
-//   };
-//   useEffect(() => {
-//     getData();
-//   }, []);
-//   return (
-//     <>
-//       {loader ? (
-//         <Loader />
-//       ) : (
-//         <div>
-//           <div className={`header_container`}>
-//             <Link to="/home" className={`img center`}>
-//               <img src={logo} alt="logo not found" />
-//             </Link>
-//             <div className={` search`}>
-//               <label className={`search_label`}>
-//                 <input
-//                   type="text"
-//                   placeholder="ادخل اسم الحفلة"
-//                 //   onChange={(e) => {
-//                 //     let value = e.target.value;
-//                 //     setSearchValue(e.target.value);
-//                 //     if (value === "") {
-//                 //       getData();
-//                 //     }
-//                 //   }}
-//                 />
-//                 <span>
-//                   <IoSearch />
-//                 </span>
-//               </label>
-//               <button
-//                 // onClick={() => {
-//                 //   if (searchValue.length > 3) {
-//                 //     if (searchValue.length > 1) {
-//                 //       fetch(
-//                 //         `https://www.izemak.com/azimak/public/api/searchinvitor/${partyID}/${searchValue}`
-//                 //       )
-//                 //         .then((res) => res.json())
-//                 //         .then((res) => {
-//                 //           setData(res.data);
-//                 //         });
-//                 //     }
-//                 //   } else {
-//                 //     getData();
-//                 //   }
-//                 // }}
-//               >
-//                 {" "}
-//                 بحث
-//               </button>
-//             </div>
-//             <Link to="/add_party" className="add_party center">
-//               <div className={`add_party_link`}>
-//                 <FaPlus className={` icon`} /> <span> إضافة حفل جديد</span>
-//               </div>
-//             </Link>
-//           </div>
-
-//           <div className="table_container">
-//             <table className={`table`}>
-//               <thead>
-//                 <tr>
-//                   <th>إسم الحفلة</th>
-//                   <th>معاد الحفلة</th>
-//                   <th>عنوان الحفلة</th>
-//                   <th>#######</th>
-//                 </tr>
-//               </thead>
-
-//               <tbody>
-//                 {/* {data.map((party) => {
-//                   return (
-//                     <tr key={party.id}>
-//                       <td> {party.name}</td>
-//                       <td>{party.time} </td>
-//                       <td>
-//                         <p>{party.address}</p>
-//                       </td>
-//                       <td className={` icons_td`}>
-//                         <span>
-//                           <MdDelete
-//                             className={`icon`}
-//                             onClick={() => {
-//                               Swal.fire({
-//                                 title: `هل انت متأكد انك ترغب في حذف  ${party.name}`,
-//                                 showCancelButton: true,
-//                               }).then((data) => {
-//                                 if (data.isConfirmed) {
-//                                   fetch(
-//                                     `https://www.izemak.com/azimak/public/api/deleteinvitor/${party.id}`,
-//                                     {
-//                                       method: "DELETE",
-//                                     }
-//                                   )
-//                                     .then((res) => {
-//                                       if (res.ok) {
-//                                         return res.json();
-//                                       }
-//                                     })
-//                                     .then((res) => {
-//                                       Swal.fire({
-//                                         position: "top-end",
-//                                         icon: "success",
-//                                         title: `${party.name} تم حذف`,
-//                                         showConfirmButton: false,
-//                                         timer: 1500,
-//                                       });
-//                                       getData();
-//                                     })
-//                                     .catch((err) => console.log(err));
-//                                 }
-//                               });
-//                             }}
-//                           />
-
-//                           <Link
-//                             to={`/add_invitors/${party.id}`}
-//                             className={`addLink`}
-//                           >
-//                             <FaUserEdit className={`icon`} />
-//                           </Link>
-//                         </span>
-//                       </td>
-//                     </tr>
-//                   );
-//                 })} */}
-//               </tbody>
-//             </table>
-//           </div>
-//         </div>
-//       )}
-//     </>
-//   );
-// }
 import { useEffect, useRef, useState } from "react";
 import styles from "./all_invitors.module.css";
 import html2pdf from "html2pdf.js";
@@ -187,13 +9,15 @@ import { IoSearch } from "react-icons/io5";
 import {
   FaCheckSquare,
   FaEdit,
+  // FaFileExcel,
   FaFilePdf,
   FaPlus,
   FaUserEdit,
 } from "react-icons/fa";
 import { MdDelete, MdDeleteSweep } from "react-icons/md";
 import logo from "./imgs/izemak.jpeg";
-
+ // excel
+// import { useDownloadExcel } from "react-export-table-to-excel";
 export default function All_invitors() {
   const [openStatusContainer, setOpenStatusContainer] = useState(false);
   let { partyID } = useParams();
@@ -241,6 +65,17 @@ export default function All_invitors() {
   useEffect(() => {
     getData();
   }, []);
+
+  // excel
+
+  // const ExcelTableData = () => {
+  //   const pdf = pdfRef.current;
+  //   const {onDownload} = useDownloadExcel({
+  //     currentTableRef:pdf,
+  //     filename:"info",
+  //     sheet:'UserData'
+  //   })
+  // };
 
   return (
     <>
@@ -327,6 +162,17 @@ export default function All_invitors() {
             ) : (
               ""
             )}
+{/* excel */}
+            {/* <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2, delay: 0.8 }}
+              className={`floating_icon center`}
+        
+            >
+              <FaFileExcel className="icon" />
+            </motion.div> */}
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -351,6 +197,7 @@ export default function All_invitors() {
             >
               <FaFilePdf className="icon" />
             </motion.div>
+
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

@@ -1,35 +1,84 @@
 .alert {
   position: absolute;
-  top: 200px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0;
+  left: 0;
+  background: rgba(0 0 0 /70%);
+  backdrop-filter: blur(2px);
+  width: 100%;
+  height: 100%;
+  z-index: 15;
+}
+
+.alert .container {
+  padding: 15px 0;
   background: whitesmoke;
   width: 500px;
   max-width: 95%;
-  height: 300px;
+  min-height: 300px;
+  max-height: 90vh;
+  overflow: scroll;
   border-radius: 5px;
-  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: 20px;
-  z-index: 100;
-  scale: 0;
-  transition: 0.5s;
+  justify-content: center;
+  overflow: scroll;
 }
-.alert img {
+
+.alert .container img {
   width: 50px;
   height: 50px;
   margin: 0 auto;
 }
-.alert div {
+.alert .container div {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 30px;
 }
-.alert div button {
+.alert .container .numberList_container {
+  overflow: scroll;
+  width: 100%;
+  height: 700px;
+}
+.alert .container .numberList_container::-webkit-scrollbar {
+  width: 0;
+}
+.alert .container .numberList_container ul {
+  flex-direction: column;
+  gap: 5px;
+  height: 100%;
+  width: 100%;
+overflow: scroll;
+
+}
+
+.alert .container .numberList_container ul::-webkit-scrollbar {
+  width: 0;
+}
+.alert .container .numberList_container ul li {
+  gap: 10px;
+  border: 1px solid var(--main_color);
+  border-radius: 5px;
+  width: 90%;
+}
+.alert .container .numberList_container ul li:first-child{
+  margin-top: 200px;
+
+}
+.alert .container .numberList_container ul li span {
+  font-weight: bold;
+  font-size: 20px;
+  padding: 5px;
+  flex: 1;
+  text-align: center;
+}
+.alert .container .numberList_container ul li span:first-child {
+  color: var(--text_color);
+  font-size: 20px;
+  border-right: 1px solid var(--main_color);
+}
+.alert .container div button {
   all: unset;
   background: var(--main_color);
   width: 150px;
@@ -40,4 +89,8 @@
   color: white;
   cursor: pointer;
   border-radius: 5px;
+  transition: 0.5s;
+}
+.alert .container div button:hover {
+  scale: 1.1;
 }

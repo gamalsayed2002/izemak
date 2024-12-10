@@ -18,6 +18,8 @@ export default function Add_invitors() {
   let [name, setName] = useState("");
   let [phone, setPhone] = useState("");
   let [maxScan, setMaxScan] = useState("");
+  let [numberList, setNumberList] = useState([]);
+  let [singleNumber, setSingleNumber] = useState(false);
   //   const [file, setFile] = useState(null);
   const getData = () => {
     const token = localStorage.getItem("token");
@@ -34,7 +36,7 @@ export default function Add_invitors() {
       .then((res) => res.json())
       .then((data) => {
         setData(data.data.members);
-    setLoader(false);
+        setLoader(false);
       })
       .catch((err) => {
         Swal.fire({
@@ -47,54 +49,7 @@ export default function Add_invitors() {
 
   useEffect(() => {
     getData();
-
   }, []);
-
-  //
-
-  // upload file
-
-  //   function handelUpload(file) {
-  //     Swal.fire({
-  //       position: "top-end",
-  //       icon: "success",
-  //       title: "Your work has been saved",
-  //       showConfirmButton: true, // Show the confirm button
-  //       confirmButtonText: "OK", // Customize the button text
-  //       timer: 1500,
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //         const fd = new FormData();
-  //         fd.append("file", file);
-  //         fetch("https://www.izemak.com/azimak/public/api/addexcel", {
-  //           method: "POST",
-  //           body: fd,
-  //         })
-  //           .then((res) => {
-  //             if (res.ok) {
-  //               Swal.fire({
-  //                 position: "top-end",
-  //                 icon: "success",
-  //                 title: "Your work has been saved",
-  //                 showConfirmButton: false,
-  //                 timer: 1500,
-  //               });
-  //               setTimeout(() => {
-  //                 window.location.reload();
-  //               }, 1500);
-  //             }
-  //           })
-  //           .catch((err) => {
-  //             console.log(err);
-  //             Swal.fire({
-  //               icon: "error",
-  //               title: "Oops...",
-  //               text: err,
-  //             });
-  //           });
-  //       }
-  //     });
-  //   }
 
   let show = () => {
     menuRef.current.classList.toggle(`show_all_invitors_icon`);
@@ -108,73 +63,343 @@ export default function Add_invitors() {
         <>
           <div className={"big_container"}>
             {file ? (
-              <div
-                className={`${styles.alert}`}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2 }}
+                className={`${styles.alert} center`}
                 style={{ scale: `${file ? 1 : 0}` }}
               >
-                <img src={info_icon} alt="sorry" />
-                <h2>هل انت متأكد</h2>
-
-                <div>
-                  <button
-                    onClick={() => {
-                      window.location.reload();
-                    }}
+                <motion.div
+                  className={`${styles.container} center`}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <motion.img
+                    src={info_icon}
+                    alt="sorry"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.5 }}
+                  />
+                  <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.8 }}
                   >
-                    إلغاء
-                  </button>
-                  <button
-                    onClick={() => {
-                      setLoader(true);
-                      if (!file) {
-                        Swal.fire({
-                          icon: "error",
-                          title: "Oops...",
-                          text: "there is no files",
-                        });
-                        return;
-                      }
-                      const fd = new FormData();
-                      fd.append("file", file);
-                      fd.append("Party_id", partyID);
-                      fetch(
-                        "https://www.izemak.com/azimak/public/api/addexcel",
-                        {
-                          method: "POST",
-                          body: fd,
-                        }
-                      )
-                        .then((res) => {
-                          if (res.ok) {
-                            // setLoader(false);
-                            Swal.fire({
-                              position: "top-end",
-                              icon: "success",
-                              title: "Your work has been saved",
-                              showConfirmButton: false,
-                              timer: 1500,
-                            });
-                            window.location.reload();
-                            // setTimeout(() => {
+                    هل انت متأكد
+                  </motion.h2>
 
-                            //     window.location.reload();
-                            // }, 1500);
-                          }
-                        })
-                        .catch((err) => {
-                          console.log(err);
+                  <div>
+                    <motion.button
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2, delay: 1 }}
+                      onClick={() => {
+                        window.location.reload();
+                      }}
+                    >
+                      إلغاء
+                    </motion.button>
+                    <motion.button
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2, delay: 1 }}
+                      onClick={() => {
+                        setLoader(true);
+                        if (!file) {
                           Swal.fire({
                             icon: "error",
                             title: "Oops...",
-                            text: err,
+                            text: "there is no files",
                           });
-                        });
-                    }}
+                          return;
+                        }
+                        const fd = new FormData();
+                        fd.append("file", file);
+                        fd.append("Party_id", partyID);
+                        fetch(
+                          "https://www.izemak.com/azimak/public/api/addexcel",
+                          {
+                            method: "POST",
+                            body: fd,
+                          }
+                        )
+                          .then((res) => {
+                            if (!res.ok) {
+                              throw new Error(
+                                `Network response was not ok (status: ${res.status})`
+                              );
+                            }
+                            return res.json();
+                          })
+                          .then((res) => {
+                            if (res.msg === "choose") {
+                              setLoader(false);
+                              setNumberList(res.data);
+                              setFile(null);
+                            }
+                          })
+                          .catch((err) => {
+                            console.log(err);
+                            Swal.fire({
+                              icon: "error",
+                              title: "Oops...",
+                              text: err,
+                            });
+                          });
+                      }}
+                    >
+                      إرسال
+                    </motion.button>
+                  </div>
+                </motion.div>
+              </motion.div>
+            ) : (
+              ""
+            )}
+
+            {/* choose to confirm numbers */}
+
+            {numberList.length > 0 ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2 }}
+                className={`${styles.alert} center`}
+                style={{ scale: `${numberList.length > 0 ? 1 : 0}` }}
+              >
+                <motion.div
+                  className={`${styles.container} center`}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <motion.img
+                    src={info_icon}
+                    alt="sorry"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                  />
+                  <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.8 }}
                   >
-                    إرسال
-                  </button>
-                </div>
-              </div>
+                    هناك ارقام مكررة
+                  </motion.h2>
+                  <div className={`${styles.numberList_container} center`}>
+                    <ul className="center">
+                      {numberList.map((item) => {
+                        return (
+                          <li key={item.name} className="center">
+                            <motion.span
+                              initial={{ opacity: 0, x: 20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.5, delay: 0.8 }}
+                              className="center"
+                            >
+                              {item.name}
+                            </motion.span>
+                            <motion.span
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.5, delay: 0.8 }}
+                              className="center"
+                            >
+                              {item.phoneNumber}
+                            </motion.span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                  <div className={`${styles.btns}`}>
+                    <motion.button
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2, delay: 1 }}
+                      onClick={() => {
+                        window.location.reload();
+                      }}
+                    >
+                      إلغاء
+                    </motion.button>
+                    <motion.button
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2, delay: 1 }}
+                      onClick={() => {
+                        setLoader(true);
+                        if (!numberList.length > 0) {
+                          Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "there is no numbers",
+                          });
+                          return;
+                        }
+                        const fd = new FormData();
+                        fd.append("data", JSON.stringify(numberList));
+
+                        fetch(
+                          "https://www.izemak.com/azimak/public/api/addexcel/confirm",
+                          {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({ data: numberList }),
+                          }
+                        )
+                          .then((res) => {
+                            if (!res.ok) {
+                              throw new Error("Network response was not ok");
+                            }
+                            return res.json();
+                          })
+                          .then((res) => {
+                            if (res.msg === "success") {
+                              setLoader(false);
+                              setFile(null);
+                              setNumberList([]);
+                              Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: "Your work has been saved",
+                                showConfirmButton: false,
+                                timer: 1500,
+                              });
+
+                              setTimeout(() => {
+                                window.location.reload();
+                              }, 1500);
+                            }
+                          })
+                          .catch((err) => {
+                            console.log(err);
+                            Swal.fire({
+                              icon: "error",
+                              title: "Oops...",
+                              text: err,
+                            });
+                          });
+                      }}
+                    >
+                      إرسال
+                    </motion.button>
+                  </div>
+                </motion.div>
+              </motion.div>
+            ) : (
+              ""
+            )}
+            {/* single duplicate number */}
+            {singleNumber ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2 }}
+                className={`${styles.alert} center`}
+                style={{ scale: `${numberList.length > 0 ? 1 : 0}` }}
+              >
+                <motion.div
+                  className={`${styles.container} center`}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <motion.img
+                    src={info_icon}
+                    alt="sorry"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                  />
+                  <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.8 }}
+                  >
+                    الرقم مكرر هل تريد إضافته
+                  </motion.h2>
+                  <div className={`${styles.btns}`}>
+                    <motion.button
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2, delay: 1 }}
+                      onClick={() => {
+                        setSingleNumber(false);
+                      }}
+                    >
+                      إلغاء
+                    </motion.button>
+                    <motion.button
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2, delay: 1 }}
+                      onClick={() => {
+                        setLoader(true);
+                        fetch(
+                          "https://www.izemak.com/azimak/public/api/addinvitor/confirm",
+                          {
+                            method: "POST",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({
+                              name: name,
+                              phoneNumber: phone,
+                              maxScan: maxScan,
+                              Party_id: partyID,
+                            }),
+                          }
+                        )
+                          .then((res) => {
+                            if (!res.ok) {
+                              setLoader(false);
+                              setSingleNumber(false);
+                              throw new Error("Network response was not ok");
+                            }
+                            return res.json();
+                          })
+                          .then((res) => {
+                            if (res.msg === "success") {
+                              setLoader(false);
+                              setSingleNumber(false);
+                              Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: "Your work has been saved",
+                                showConfirmButton: false,
+                                timer: 1500,
+                              });
+
+                              setTimeout(() => {
+                                getData();
+                                setName("");
+                                setPhone("");
+                                setMaxScan("");
+                              }, 1500);
+                            }
+                          })
+                          .catch((err) => {
+                            console.log(err);
+                            Swal.fire({
+                              icon: "error",
+                              title: "Oops...",
+                              text: err,
+                            });
+                          });
+                      }}
+                    >
+                      إرسال
+                    </motion.button>
+                  </div>
+                </motion.div>
+              </motion.div>
             ) : (
               ""
             )}
@@ -188,7 +413,7 @@ export default function Add_invitors() {
                   e.preventDefault();
                   fetch("https://www.izemak.com/azimak/public/api/addinvitor", {
                     method: "POST",
-                    headers: { "Content-Type": "Application/json" },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                       Party_id: partyID,
                       phoneNumber: phone,
@@ -196,8 +421,19 @@ export default function Add_invitors() {
                       maxScan: maxScan,
                     }),
                   })
+                    .then((res) => {
+                      if (!res.ok) {
+                        setLoader(false);
+                        setSingleNumber(false);
+                        throw new Error("Network response was not ok");
+                      }
+                      return res.json();
+                    })
                     .then((response) => {
-                      if (response.ok) {
+                      if (response.msg === "choose") {
+                        setSingleNumber(true);
+                        return;
+                      } else if (response.msg === "success") {
                         Swal.fire({
                           position: "top-end",
                           icon: "success",
@@ -205,24 +441,27 @@ export default function Add_invitors() {
                           showConfirmButton: false,
                           timer: 1500,
                         });
-                        getData();
-                        setName("");
-                        setPhone("");
-                        setMaxScan("");
-                        return response.json();
+                        setTimeout(() => {
+                          getData();
+                          setName("");
+                          setPhone("");
+                          setMaxScan("");
+                        }, 1500);
                       } else {
+                        // Handle the error response
                         Swal.fire({
                           icon: "error",
                           title: "Oops...",
-                          text: response.msg,
+                          text: response.msg || "حدث خطأ غير متوقع", // Fallback message
                         });
                       }
                     })
                     .catch((error) => {
+                      // Handle network errors
                       Swal.fire({
                         icon: "error",
                         title: "Oops...",
-                        text: error,
+                        text: error.message || "حدث خطأ في الاتصال", // More user-friendly error message
                       });
                     });
                 }}
@@ -320,7 +559,6 @@ export default function Add_invitors() {
                       style={{ display: "none" }}
                       type="file"
                       id="file"
-                      placeholder=""
                       onChange={(e) => {
                         setFile(e.target.files[0]);
                       }}
