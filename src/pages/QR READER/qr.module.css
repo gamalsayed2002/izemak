@@ -1,6 +1,44 @@
-.qr_reader,
-.reslut {
+.qr_reader {
   width: 500px;
   margin: 0 auto;
   max-width: 95%;
+}
+.result {
+  width: 500px;
+  margin: 0 auto;
+  max-width: 95%;
+}
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 50px 0;
+}
+.result h2 {
+}
+.result ul {
+  width: 100%;
+  flex-direction: column;
+}
+.result ul li {
+  width: 100%;
+}
+.result ul li span {
+  flex: 1;
+  border: 1px solid var(--main_color);
+  padding-left: 10px;
+  font-weight: bold;
+  color: var(--main_color);
+}
+.result button{
+  all: unset;
+  width: 100px;
+  height: 30px;
+background: var(--main_color);
+text-align: center;
+align-items: center;
+border-radius: 5px;
+color: white;
+font-weight: 600;
+cursor: pointer;
 }
