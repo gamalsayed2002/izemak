@@ -11,6 +11,7 @@ export default function Add_invitors() {
   const [loader, setLoader] = useState(true);
   const menuRef = useRef();
   let [data, setData] = useState([]);
+  let [partyName, setPartyName] = useState();
 
   let { partyID } = useParams();
   let navigation = useNavigate();
@@ -20,7 +21,7 @@ export default function Add_invitors() {
   let [maxScan, setMaxScan] = useState("");
   let [numberList, setNumberList] = useState([]);
   let [singleNumber, setSingleNumber] = useState(false);
-  //   const [file, setFile] = useState(null);
+
   const getData = () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -36,6 +37,7 @@ export default function Add_invitors() {
       .then((res) => res.json())
       .then((data) => {
         setData(data.data.members);
+        setPartyName(data.data.name);
         setLoader(false);
       })
       .catch((err) => {
@@ -471,7 +473,7 @@ export default function Add_invitors() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8 }}
                 >
-                  إضافة مدعوين
+                  {partyName}
                 </motion.h2>
                 <motion.div className={`input_container`}>
                   <motion.label
@@ -595,7 +597,6 @@ export default function Add_invitors() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.8, delay: "0." + index }}
                     >
-                      <span> {index + 1}</span>
                       <span> {i.name}</span>
                       <span
                         className={`${

@@ -9,15 +9,14 @@ import { IoSearch } from "react-icons/io5";
 import {
   FaCheckSquare,
   FaEdit,
-  // FaFileExcel,
+  FaFileExcel,
   FaFilePdf,
   FaPlus,
   FaUserEdit,
 } from "react-icons/fa";
 import { MdDelete, MdDeleteSweep } from "react-icons/md";
 import logo from "./imgs/izemak.jpeg";
- // excel
-// import { useDownloadExcel } from "react-export-table-to-excel";
+
 export default function All_invitors() {
   const [openStatusContainer, setOpenStatusContainer] = useState(false);
   let { partyID } = useParams();
@@ -49,7 +48,7 @@ export default function All_invitors() {
       .then((res) => res.json())
       .then((res) => {
         setPartyData(res.data);
-        setData(res.data);
+        setData(res.invitors);
         setLoader(false);
 
         return res.data;
@@ -65,17 +64,6 @@ export default function All_invitors() {
   useEffect(() => {
     getData();
   }, []);
-
-  // excel
-
-  // const ExcelTableData = () => {
-  //   const pdf = pdfRef.current;
-  //   const {onDownload} = useDownloadExcel({
-  //     currentTableRef:pdf,
-  //     filename:"info",
-  //     sheet:'UserData'
-  //   })
-  // };
 
   return (
     <>
@@ -162,16 +150,53 @@ export default function All_invitors() {
             ) : (
               ""
             )}
-{/* excel */}
-            {/* <motion.div
+            {/* excel  */}
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.2, delay: 0.8 }}
               className={`floating_icon center`}
-        
+              onClick={() => {
+                fetch(
+                  `https://www.izemak.com/azimak/public/api/export/${partyID}`,
+                  {
+                    method: "GET",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  }
+                )
+                  .then((res) => {
+                    if (res.ok) {
+                      return res.blob();
+                    } else {
+                      throw new Error("Network response was not ok.");
+                    }
+                  })
+                  .then((blob) => {
+                    // Create a link element
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = `party_${partyID}.xlsx`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                  })
+                  .catch((error) => {
+                    console.error("Error downloading the file:", error);
+                    Swal.fire({
+                      position: "top-end",
+                      icon: "error",
+                      title: `حدث خطأ`,
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
+                  });
+              }}
             >
               <FaFileExcel className="icon" />
-            </motion.div> */}
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -264,6 +289,7 @@ export default function All_invitors() {
                     <option value="invited"> Invited</option>
                     <option value="rejected"> Rejected</option>
                     <option value="accepted"> Accepted</option>
+
                     <option value="status"> status</option>
                   </motion.select>
                 </div>
@@ -431,6 +457,11 @@ export default function All_invitors() {
 
                   if (e.target.value === "all") {
                     setData(partyData);
+                  } else if (e.target.value.includes("arrived")) {
+                    let data = partyData.filter((i) => {
+                      return i.status.includes("arrived");
+                    });
+                    setData(data);
                   } else {
                     setData(partyData);
                     let data = partyData.filter((i) => {
@@ -443,6 +474,8 @@ export default function All_invitors() {
                 <option value="invited"> Invited</option>
                 <option value="rejected"> Rejected</option>
                 <option value="accepted"> Accepted</option>
+                <option value="faild"> Faild</option>
+                <option value="arrived"> Arrived</option>
                 <option value="all"> All</option>
               </select>
             </div>

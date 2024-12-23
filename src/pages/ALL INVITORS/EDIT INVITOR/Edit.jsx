@@ -213,6 +213,7 @@ export default function Edit() {
                 >
                   <option value="invited">invited</option>
                   <option value="accepted">accepted</option>
+                 
                   <option value="rejected">rejected</option>
                 </motion.select>
               </div>
