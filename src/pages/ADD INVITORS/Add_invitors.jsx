@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { LuMenu } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
 import info_icon from "./imgs/info.512x512.png";
+import users from "./imgs/userspng.png";
 export default function Add_invitors() {
   const [loader, setLoader] = useState(true);
   const menuRef = useRef();
@@ -16,6 +17,10 @@ export default function Add_invitors() {
   let { partyID } = useParams();
   let navigation = useNavigate();
   let [file, setFile] = useState(null);
+  // let [send, setSend] = useState(false);
+  // let [confirm, setConfirm] = useState(false);
+  let [confirmNumbers, setConfirmNumbers] = useState(null);
+
   let [name, setName] = useState("");
   let [phone, setPhone] = useState("");
   let [maxScan, setMaxScan] = useState("");
@@ -122,6 +127,106 @@ export default function Add_invitors() {
                         fd.append("file", file);
                         fd.append("Party_id", partyID);
                         fetch(
+                          "https://www.izemak.com/azimak/public/api/excel",
+                          {
+                            method: "POST",
+                            body: fd,
+                          }
+                        )
+                          .then((res) => {
+                            if (!res.ok) {
+                              throw new Error(
+                                `Network response was not ok (status: ${res.status})`
+                              );
+                            }
+                            return res.json();
+                          })
+                          .then((res) => {
+                            if (res.msg === "success") {
+                              setLoader(false);
+                              setConfirmNumbers(res.data);
+                              // setSend(false);
+                              // setConfirm(true)
+                            }
+                          })
+                          .catch((err) => {
+                            console.log(err);
+                            Swal.fire({
+                              icon: "error",
+                              title: "Oops...",
+                              text: err,
+                            });
+                          });
+                      }}
+                    >
+                      إرسال
+                    </motion.button>
+                  </div>
+                </motion.div>
+              </motion.div>
+            ) : (
+              ""
+            )}
+
+            {confirmNumbers ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2 }}
+                className={`${styles.alert} center`}
+                style={{ scale: `${file ? 1 : 0}` }}
+              >
+                <motion.div
+                  className={`${styles.container} center`}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <motion.img
+                    src={users}
+                    alt="sorry"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.5 }}
+                    style={{height:"40px"}}
+                  />
+                  <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.8 }}
+                  >
+                    {`${confirmNumbers} عدد الاشخاص`}
+                  </motion.h2>
+
+                  <div>
+                    <motion.button
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2, delay: 1 }}
+                      onClick={() => {
+                        window.location.reload();
+                      }}
+                    >
+                      إلغاء
+                    </motion.button>
+                    <motion.button
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.2, delay: 1 }}
+                      onClick={() => {
+                        setLoader(true);
+                        if (!file) {
+                          Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "there is no files",
+                          });
+                          return;
+                        }
+                        const fd = new FormData();
+                        fd.append("file", file);
+                        fd.append("Party_id", partyID);
+                        fetch(
                           "https://www.izemak.com/azimak/public/api/addexcel",
                           {
                             method: "POST",
@@ -141,6 +246,7 @@ export default function Add_invitors() {
                               setLoader(false);
                               setNumberList(res.data);
                               setFile(null);
+                              setConfirmNumbers(false);
                             }
                           })
                           .catch((err) => {
@@ -264,9 +370,9 @@ export default function Add_invitors() {
                           })
                           .then((res) => {
                             if (res.msg === "success") {
-                              setLoader(false);
-                              setFile(null);
-                              setNumberList([]);
+                              // setLoader(false);
+                              // setFile(null);
+                              // setNumberList([]);
                               Swal.fire({
                                 position: "top-end",
                                 icon: "success",
@@ -563,6 +669,7 @@ export default function Add_invitors() {
                       id="file"
                       onChange={(e) => {
                         setFile(e.target.files[0]);
+                        // setSend(true);
                       }}
                     />
                   </motion.div>
